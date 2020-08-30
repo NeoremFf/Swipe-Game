@@ -1,74 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using System;
+﻿using UnityEngine;
+using Assets.Scripts.Game_Loop;
 
-public class ChallengeGameManager : MonoBehaviour
+public class ChallengeGameManager : GameLoopManager
 {
-    [Header("Scanes Elements")]
-    [SerializeField] private GameObject playScane;
-    [SerializeField] private GameObject loseScane;
-
-    [Header("Parents")]
-    [SerializeField] private GameObject ParentForSwipeController;
-    [Tooltip("Parent for all cards")]
-    [SerializeField] private GameObject cardsPool;
-
-    [Header("Cards")]
-    [Tooltip("Only this order:\nTop\nDown\nLeft\nRight\nTouch")]
-    [SerializeField] private GameObject[] cardPrefabs;
-    [SerializeField] private Transform pointForCard;
-    [SerializeField] private GameObject swipeController;
-
-    [Header("UI")]
-    [SerializeField] private Text timerUI;
-    [SerializeField] private Image scaleUI;
-
-    [Header("Time")]
-    [Tooltip("Time to loop")]
-    [SerializeField] private float timeToGameLoop;
-    private float timer;
-
-    [Header("Managers")]
-    [SerializeField] private SwipeManager _swipeManager;
-
-    // POOL
-    private List<List<GameObject>> cards = new List<List<GameObject>>();
-    private List<GameObject> cardsTop = new List<GameObject>();
-    private List<GameObject> cardsDown = new List<GameObject>();
-    private List<GameObject> cardsLeft = new List<GameObject>();
-    private List<GameObject> cardsRight = new List<GameObject>();
-    private List<GameObject> cardsTouch = new List<GameObject>();
-    private List<GameObject> cardsNotTop = new List<GameObject>();
-    private List<GameObject> cardsNotDown = new List<GameObject>();
-    private List<GameObject> cardsNotLeft = new List<GameObject>();
-    private List<GameObject> cardsNotRight = new List<GameObject>();
-    private int currentList;
-    private int idOfCardInList = -1;
-
-    private bool firstCard = true;
-    private bool loseState = false;
-
     private void Start()
+    {
+        Prepare();
+    }
+
+    protected override void Prepare()
     {
         Log.WriteLog("Challenge mode.", Log.LevelsOfLogs.INFO, "ChallengeGameManager");
         Log.WriteLog("Game started.", Log.LevelsOfLogs.INFO, "ChallengeGameManager");
 
         loseState = false;
         _swipeManager.gameObject.SetActive(true);
-        swipeController.transform.SetParent(ParentForSwipeController.transform);
+        _swipeManager.transform.SetParent(ParentForSwipeController.transform);
 
         CreatedAllCards();
         timer = timeToGameLoop;
         NextTurn(true);
     }
 
-    /// <summary>
-    /// Check player move that it is correct or not
-    /// </summary>
-    /// <param name="move"></param>
-    public void CheckPlayerMove(bool stateCheck)
+    public override void CheckPlayerMove(bool stateCheck)
     {
         if (stateCheck)
         {
@@ -81,7 +35,7 @@ public class ChallengeGameManager : MonoBehaviour
         }
     }
 
-    public void RestartLoop()
+    public override void RestartGame()
     {
         Log.WriteLog("Restart Game.", Log.LevelsOfLogs.INFO, "ChallengeGameManager");
         ScoreManager.SetScoreToZero();
@@ -91,7 +45,7 @@ public class ChallengeGameManager : MonoBehaviour
         NextTurn(true);
     }
 
-    public void ContinueLoop()
+    public override void ContinueLoop()
     {
         Log.WriteLog("Continue Game.", Log.LevelsOfLogs.INFO, "ChallengeGameManager");
         ScoreManager.SetScoreToContinue();
@@ -101,43 +55,18 @@ public class ChallengeGameManager : MonoBehaviour
         NextTurn(true);
     }
 
-    /// <summary>
-    /// Create all cards and move it in pool
-    /// </summary>
-    /// <param name="move"></param>
-    private void CreatedAllCards()
+    protected override void CreatedAllCards()
     {
-        AddItemToList(cardsTop, cardPrefabs[0]);
-        AddItemToList(cardsDown, cardPrefabs[1]);
-        AddItemToList(cardsLeft, cardPrefabs[2]);
-        AddItemToList(cardsRight, cardPrefabs[3]);
-        AddItemToList(cardsTouch, cardPrefabs[4]);
-        AddItemToList(cardsNotTop, cardPrefabs[5]);
-        AddItemToList(cardsNotDown, cardPrefabs[6]);
-        AddItemToList(cardsNotLeft, cardPrefabs[7]);
-        AddItemToList(cardsNotRight, cardPrefabs[8]);
-        cards.Add(cardsTop);
-        cards.Add(cardsDown);
-        cards.Add(cardsLeft);
-        cards.Add(cardsRight);
-        cards.Add(cardsTouch);
-        cards.Add(cardsNotTop);
-        cards.Add(cardsNotDown);
-        cards.Add(cardsNotLeft);
-        cards.Add(cardsNotRight);
+        cards.Add(CreateList(cardPrefabs[0]));
+        cards.Add(CreateList(cardPrefabs[1]));
+        cards.Add(CreateList(cardPrefabs[2]));
+        cards.Add(CreateList(cardPrefabs[3]));
+        cards.Add(CreateList(cardPrefabs[4]));
+        cards.Add(CreateList(cardPrefabs[5]));
+        cards.Add(CreateList(cardPrefabs[6]));
+        cards.Add(CreateList(cardPrefabs[7]));
+        cards.Add(CreateList(cardPrefabs[8]));
         DeactiveAllCards();
-    }
-
-    private void AddItemToList(List<GameObject> list, GameObject pref)
-    {
-
-        GameObject newCard = Instantiate(pref);
-        list.Add(newCard);
-        foreach (var item in list)
-        {
-            item.transform.SetParent(cardsPool.transform);
-            item.transform.position = pointForCard.position;
-        }
     }
 
     private void Update()
@@ -154,7 +83,7 @@ public class ChallengeGameManager : MonoBehaviour
         }
     }
 
-    private void NextTurn(bool isFirst = false)
+    protected override void NextTurn(bool isFirst = false)
     {
         if (!isFirst)
         {
@@ -179,7 +108,7 @@ public class ChallengeGameManager : MonoBehaviour
         }
         if (!hasAccessCard) // not has -> create it
         {
-            AddItemToList(cards[currentList], cards[currentList][idOfCardInList]);
+            AddToList(cards[currentList], cards[currentList][idOfCardInList]);
             idOfCardInList++;
         }
 
@@ -192,42 +121,9 @@ public class ChallengeGameManager : MonoBehaviour
         cards[currentList][idOfCardInList].SetActive(true);
     }
 
-    private void Lose()
+    protected override void Timer()
     {
-        Log.WriteLog("Game ended.", Log.LevelsOfLogs.INFO, "ChallengeGameManager");
-        loseState = true;
-        _swipeManager.gameObject.SetActive(false);
-        StopAllCoroutines();
-        DeactiveAllCards();
-        ScoreManager.UpdateLoseUI();
-        playScane.SetActive(false);
-        loseScane.SetActive(true);
-        MenuManager _menu = FindObjectOfType<MenuManager>();
-        if (!_menu)
-        {
-            Log.WriteLog("Can not set MenuManger.", Log.LevelsOfLogs.ERROR, "ChallengeGameManager");
-            return;
-        }
-        _menu.UpdateMoneyUI();
-    }
-
-    private void Timer()
-    {
+        // Update UI here
         timer -= Time.deltaTime;
-        timerUI.text = timer.ToString("0.0");
-        scaleUI.transform.localScale = new Vector3(timer / timeToGameLoop, 1, 1);
-    }
-
-    private IEnumerator TurnOffCard(GameObject card)
-    {
-        yield return new WaitForSeconds(0.5f);
-        card.SetActive(false);
-    }
-
-    private void DeactiveAllCards()
-    {
-        foreach (var items in cards)
-            foreach (var item in items)
-                item.SetActive(false);
     }
 }

@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Assets.Scripts.Game_Loop;
 
 public class MenuManager : MonoBehaviour
 {
@@ -24,16 +23,15 @@ public class MenuManager : MonoBehaviour
 
     [Header("Info Panel")]
     [SerializeField] private GameObject infoPanel = null;
-    
+
     [Header("Answer Panel")]
     [SerializeField] private GameObject answerPanel = null;
 
     [Header("Game Manager")]
-    [SerializeField] private GameObject gameController = null;
+    //[SerializeField] private GameObject gameController = null;
     [SerializeField] private AudioSource _sound = null;
     [SerializeField] private MoneyManager _resourcesManager = null;
-    private ClassicGameManager _classic = null;
-    private ChallengeGameManager _challenge = null;
+    private GameLoopManager gameManager = null;
 
     private AdsManager _ads = null;
 
@@ -45,13 +43,13 @@ public class MenuManager : MonoBehaviour
             case GameModes.Modes.NoneGame:
                 break;
             case GameModes.Modes.Classic:
-                _classic = FindObjectOfType<ClassicGameManager>();
-                if (!_classic)
+                gameManager = FindObjectOfType<ClassicGameManager>();
+                if (!gameManager)
                     Log.WriteLog("ClassicGameManager not set.", Log.LevelsOfLogs.ERROR, "SwipeManager");
                 break;
             case GameModes.Modes.Challenge:
-                _challenge = FindObjectOfType<ChallengeGameManager>();
-                if (!_challenge)
+                gameManager = FindObjectOfType<ChallengeGameManager>();
+                if (!gameManager)
                     Log.WriteLog("ClassicGameManager not set.", Log.LevelsOfLogs.ERROR, "SwipeManager");
                 break;
             default:
@@ -107,23 +105,25 @@ public class MenuManager : MonoBehaviour
 
     public void Restart()
     {
-        if (_classic)
-        {
-            playScene.SetActive(true);
-            loseScene.SetActive(false);
-            _classic.RestartLoop();
-            buttonExtraLive.SetActive(true);
-        }
-        else
+        if (gameManager as ChallengeGameManager)
         {
             if (MoneyManager.GetTickets() > 0)
             {
+                MoneyManager.AddTickets(-1);
                 playScene.SetActive(true);
                 loseScene.SetActive(false);
-                _challenge.RestartLoop();
+                gameManager.RestartGame();
+                buttonExtraLive.SetActive(true);
             }
             else
                 AnswerPanel("NOT ENOUGH TICKETS TO PLAY\n<color=grye><size=70>BUY MORE?</size></color>", buyTicketsPanel);
+        }
+        else
+        {
+            playScene.SetActive(true);
+            loseScene.SetActive(false);
+            gameManager.RestartGame();
+            buttonExtraLive.SetActive(true);
         }
     }
 
@@ -134,8 +134,7 @@ public class MenuManager : MonoBehaviour
             InfoPanel("Extra Live Add!");
             loseScene.SetActive(false);
             playScene.SetActive(true);
-            _classic?.ContinueLoop();
-            _challenge?.ContinueLoop();
+            gameManager.ContinueLoop();
             buttonExtraLive.SetActive(false);
         }
         else

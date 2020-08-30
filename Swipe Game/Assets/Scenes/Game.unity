@@ -4944,8 +4944,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0a2f87e3c20c9a45a8c0be887149c18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playScane: {fileID: 2050094206}
-  loseScane: {fileID: 64053117}
+  playScene: {fileID: 2050094206}
+  loseScene: {fileID: 64053117}
   ParentForSwipeController: {fileID: 773064819}
   cardsPool: {fileID: 364379231}
   cardPrefabs:
@@ -4961,13 +4961,12 @@ MonoBehaviour:
   - {fileID: 816263510864713270, guid: 61241634639c47c4ab85533a6c946168, type: 3}
   - {fileID: 5702122376567815815, guid: f69fdb63111ef894198ab76ae58e1c63, type: 3}
   pointForCard: {fileID: 2086068887}
-  timerUI: {fileID: 1970301856}
-  scaleUI: {fileID: 343244637}
-  startTimeToMove: 2
+  timeToGameLoop: 2
+  _swipeManager: {fileID: 33734937}
+  menuManager: {fileID: 1585700588}
   timeRemoveValue: 0.1
   timeRemoveCountMoves: 12
   timeMinRemove: 0.8
-  _swipeManager: {fileID: 33734937}
 --- !u!1 &1412812715
 GameObject:
   m_ObjectHideFlags: 0
@@ -5769,7 +5768,6 @@ MonoBehaviour:
   ticketsCountText: {fileID: 1347494580}
   infoPanel: {fileID: 1188896003}
   answerPanel: {fileID: 120048067}
-  gameController: {fileID: 2126911159}
   _sound: {fileID: 0}
   _resourcesManager: {fileID: 56141842}
 --- !u!1 &1612993317
@@ -7456,8 +7454,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d6ebecf6a7435458ac27f85aac873a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playScane: {fileID: 2050094206}
-  loseScane: {fileID: 64053117}
+  playScene: {fileID: 2050094206}
+  loseScene: {fileID: 64053117}
   ParentForSwipeController: {fileID: 773064819}
   cardsPool: {fileID: 364379231}
   cardPrefabs:
@@ -7471,11 +7469,9 @@ MonoBehaviour:
   - {fileID: 5914874350936793605, guid: 0cd0decaab57ee845a934cbba73c7d7c, type: 3}
   - {fileID: 816263510864713270, guid: 61241634639c47c4ab85533a6c946168, type: 3}
   pointForCard: {fileID: 2086068887}
-  swipeController: {fileID: 33734933}
-  timerUI: {fileID: 1970301856}
-  scaleUI: {fileID: 343244637}
   timeToGameLoop: 20
   _swipeManager: {fileID: 33734937}
+  menuManager: {fileID: 1585700588}
 --- !u!4 &2126911161
 Transform:
   m_ObjectHideFlags: 0
