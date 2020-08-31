@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
+﻿using UnityEngine;
+using Assets.Scripts.Game_Loop;
 
 public class CardManager : MonoBehaviour
 {
@@ -33,7 +31,7 @@ public class CardManager : MonoBehaviour
         return (stateNeed[0] == AllState.State.Skip && !isNot) ? true : false;
     }
 
-    public void CheckCorrectState(AllState.State newState, ClassicGameManager _classic, ChallengeGameManager _challenge)
+    public void CheckCorrectState(AllState.State newState, GameLoopManager gameManager)
     {
         bool stateOfCheck = false;
         if (newState == stateNeed[currentStateNeed])
@@ -41,14 +39,14 @@ public class CardManager : MonoBehaviour
             if (isNot) // wrong
             {
                 stateOfCheck = false;
-                SendResult(stateOfCheck, _classic, _challenge);
+                SendResult(stateOfCheck, gameManager);
             }
             else // correct!
             {
                 stateOfCheck = true;
                 currentStateNeed++;
                 if (currentStateNeed >= stateLength)
-                    SendResult(stateOfCheck, _classic, _challenge);
+                    SendResult(stateOfCheck, gameManager);
             }
         }
         else
@@ -58,12 +56,12 @@ public class CardManager : MonoBehaviour
                 stateOfCheck = true;
                 currentStateNeed++;
                 if (currentStateNeed >= stateLength)
-                    SendResult(stateOfCheck, _classic, _challenge);
+                    SendResult(stateOfCheck, gameManager);
             }
             else // wrong
             {
                 stateOfCheck = false;
-                SendResult(stateOfCheck, _classic, _challenge);
+                SendResult(stateOfCheck, gameManager);
             }
         }
 
@@ -75,11 +73,10 @@ public class CardManager : MonoBehaviour
         isMove = true;
     }
 
-    private void SendResult(bool result, ClassicGameManager _classic, ChallengeGameManager _challenge)
+    private void SendResult(bool result, GameLoopManager gameManager)
     {
         currentStateNeed = 0;
-        _classic?.CheckPlayerMove(result);
-        _challenge?.CheckPlayerMove(result);
+        gameManager?.CheckPlayerMove(result);
     }
 
     private void Update()

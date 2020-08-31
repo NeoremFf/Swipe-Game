@@ -7,7 +7,7 @@ namespace Assets.Scripts.Game_Loop
     public abstract class GameLoopManager : MonoBehaviour
     {
         #region Variables
-        [Header("Scanes Elements")]
+        [Header("Scenes Elements")]
         [SerializeField] protected GameObject playScene = null;
         [SerializeField] protected GameObject loseScene = null;
 
@@ -38,13 +38,13 @@ namespace Assets.Scripts.Game_Loop
         // flags
         protected bool firstCard = true;
         protected bool loseState = false;
-        #endregion
 
-        /// <summary>
-        /// Check player move that it is correct or not
-        /// </summary>
-        /// <param name="move"></param>
-        public abstract void CheckPlayerMove(bool stateCheck);
+        // Events for UI update
+        protected delegate void UIUpdateLoseHandler();
+        protected delegate void UIUpdateTimerHandler(object sender, TimerUpdateUIEventArgs e);
+        protected event UIUpdateLoseHandler updateUIAfterLoseEvent = null;
+        protected event UIUpdateTimerHandler updateTimerUIEvent = null;
+        #endregion
 
         /// <summary>
         /// Restart game
@@ -73,9 +73,45 @@ namespace Assets.Scripts.Game_Loop
         protected abstract void NextTurn(bool isFirst = false);
 
         /// <summary>
-        /// Implements logic of timer
+        /// Set event that will update timer UI in game
         /// </summary>
-        protected abstract void Timer();
+        /// <param name="handler">event</param>
+        protected void SetTimerUIUpdateEvent(UIUpdateTimerHandler handler)
+        {
+            updateTimerUIEvent += handler;
+        }
+
+        /// <summary>
+        /// Set event that will update UI after game
+        /// </summary>
+        /// <param name="handler">event</param>
+        protected void SetLoseUIUpdateEvent(UIUpdateLoseHandler handler)
+        {
+            updateUIAfterLoseEvent += handler;
+        }
+
+        /// <summary>
+        /// Check player move that it is correct or not
+        /// </summary>
+        /// <param name="move"></param>
+        public void CheckPlayerMove(bool stateCheck)
+        {
+            if (stateCheck)
+            {
+                firstCard = false;
+                ScoreManager.UpdateScore();
+                NextTurn();
+            }
+            else
+            {
+                Lose();
+            }
+        }
+
+        protected void UpdateTimerUI(TimerUpdateUIEventArgs args)
+        {
+            updateTimerUIEvent?.Invoke(this, args);
+        }
 
         /// <summary>
         /// Creates cards list
@@ -99,6 +135,16 @@ namespace Assets.Scripts.Game_Loop
         }
 
         /// <summary>
+        /// Implements logic of timer
+        /// </summary>
+        protected void Timer()
+        {
+            if (firstCard) return;
+            UpdateTimerUI(new TimerUpdateUIEventArgs(timer, timeToGameLoop));
+            timer -= Time.deltaTime;
+        }
+
+        /// <summary>
         /// Calls after lose game
         /// </summary>
         protected void Lose()
@@ -108,10 +154,11 @@ namespace Assets.Scripts.Game_Loop
             _swipeManager.gameObject.SetActive(false);
             StopAllCoroutines();
             DeactiveAllCards();
-            ScoreManager.UpdateLoseUI();
+            // UI
+            updateUIAfterLoseEvent?.Invoke();
+
             playScene.SetActive(false);
-            loseScene.SetActive(true);      
-            menuManager.UpdateMoneyUI();
+            loseScene.SetActive(true);
         }
 
         /// <summary>
@@ -124,6 +171,11 @@ namespace Assets.Scripts.Game_Loop
                     item.SetActive(false);
         }
 
+        /// <summary>
+        /// Turn off card after players move
+        /// </summary>
+        /// <param name="card"></param>
+        /// <returns></returns>
         protected IEnumerator TurnOffCard(GameObject card)
         {
             yield return new WaitForSeconds(0.5f);

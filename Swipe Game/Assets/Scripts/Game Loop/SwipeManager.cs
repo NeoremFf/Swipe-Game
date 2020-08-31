@@ -1,12 +1,11 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Assets.Scripts.Game_Loop;
 
 public class SwipeManager : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerDownHandler
 {
-    private ClassicGameManager _classic = null;
-    private ChallengeGameManager _challenge = null;
+    private GameLoopManager gameManager = null;
 
     /// Current State that player did
     private AllState.State currentState;
@@ -21,13 +20,13 @@ public class SwipeManager : MonoBehaviour, IDragHandler, IBeginDragHandler, IPoi
             case GameModes.Modes.NoneGame:
                 break;
             case GameModes.Modes.Classic:
-                _classic = FindObjectOfType<ClassicGameManager>();
-                if (!_classic)
+                gameManager = FindObjectOfType<ClassicGameManager>();
+                if (!gameManager)
                     Log.WriteLog("ClassicGameManager not set.", Log.LevelsOfLogs.ERROR, "SwipeManager");
                 break;
             case GameModes.Modes.Challenge:
-                _challenge = FindObjectOfType<ChallengeGameManager>();
-                if (!_challenge)
+                gameManager = FindObjectOfType<ChallengeGameManager>();
+                if (!gameManager)
                     Log.WriteLog("ClassicGameManager not set.", Log.LevelsOfLogs.ERROR, "SwipeManager");
                 break;
             default:
@@ -57,14 +56,7 @@ public class SwipeManager : MonoBehaviour, IDragHandler, IBeginDragHandler, IPoi
         /// return move of palyer to check
         if (_cardManager)
         {
-            if (_classic)
-            {
-                _cardManager.CheckCorrectState(currentState, _classic, null);
-            }
-            else
-            {
-                _cardManager.CheckCorrectState(currentState, null, _challenge);
-            }
+            _cardManager.CheckCorrectState(currentState, gameManager);
         }
     }
 
@@ -102,8 +94,6 @@ public class SwipeManager : MonoBehaviour, IDragHandler, IBeginDragHandler, IPoi
                 currentState = AllState.State.Down;
             }
         }
-
-       // ClickVFX.EndVFX();
     }
 
     /// <summary>

@@ -13,6 +13,10 @@ public class ChallengeGameManager : GameLoopManager
         Log.WriteLog("Challenge mode.", Log.LevelsOfLogs.INFO, "ChallengeGameManager");
         Log.WriteLog("Game started.", Log.LevelsOfLogs.INFO, "ChallengeGameManager");
 
+        GameLoopUIUpdate uiUpdate = FindObjectOfType<GameLoopUIUpdate>();
+        SetTimerUIUpdateEvent(uiUpdate.UpdateTimerUI);
+        SetLoseUIUpdateEvent(uiUpdate.UpdateLoseUI);
+
         loseState = false;
         _swipeManager.gameObject.SetActive(true);
         _swipeManager.transform.SetParent(ParentForSwipeController.transform);
@@ -22,19 +26,6 @@ public class ChallengeGameManager : GameLoopManager
         NextTurn(true);
     }
 
-    public override void CheckPlayerMove(bool stateCheck)
-    {
-        if (stateCheck)
-        {
-            ScoreManager.UpdateScore();
-            NextTurn();
-        }
-        else
-        {
-            Lose();
-        }
-    }
-
     public override void RestartGame()
     {
         Log.WriteLog("Restart Game.", Log.LevelsOfLogs.INFO, "ChallengeGameManager");
@@ -42,6 +33,7 @@ public class ChallengeGameManager : GameLoopManager
         loseState = false;
         _swipeManager.gameObject.SetActive(true);
         timer = timeToGameLoop;
+        UpdateTimerUI(new TimerUpdateUIEventArgs(timer, timeToGameLoop));
         NextTurn(true);
     }
 
@@ -52,6 +44,7 @@ public class ChallengeGameManager : GameLoopManager
         loseState = false;
         _swipeManager.gameObject.SetActive(true);
         timer += 5;
+        UpdateTimerUI(new TimerUpdateUIEventArgs(timer, timeToGameLoop));
         NextTurn(true);
     }
 
@@ -119,11 +112,5 @@ public class ChallengeGameManager : GameLoopManager
 
         cards[currentList][idOfCardInList].transform.position = pointForCard.position;
         cards[currentList][idOfCardInList].SetActive(true);
-    }
-
-    protected override void Timer()
-    {
-        // Update UI here
-        timer -= Time.deltaTime;
     }
 }

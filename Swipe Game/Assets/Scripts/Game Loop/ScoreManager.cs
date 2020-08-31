@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
+    // UI here
     [Header("UI in game")]
     [SerializeField] private Text scoreUI = null;
     private static Text scoreUIHelper = null;
@@ -14,19 +15,24 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private Text bestScoreLoseUI = null;
     private static Text scoreLoseUIHelper = null;
     private static Text bestScoreLoseUHelperI = null;
+    // 
 
-    private static int score = 0;
-    private static int bestScore = 0;
-    private static int scoreAllLoop = 0;
+    private static int score = 0; // current score
+    private static int bestScore = 0; // the best score of current mode
+    private static int scoreAllLoop = 0; // all points scored in this game cycle (needed to continue after advertising or money after a loss)
 
     private static GameModes.Modes gameMode = GameModes.Modes.NoneGame;
 
+    /// <summary>
+    /// Prepare Money Manager
+    /// </summary>
     private void Start()
     {
         GameModeManager _mode = FindObjectOfType<GameModeManager>();
         if (!_mode) Log.WriteLog("Can not set game mode." + gameMode.ToString() + ".", Log.LevelsOfLogs.ERROR, "ScoreManager");
         gameMode = _mode.GetGameMode();
         Log.WriteLog("Set game mode: " + gameMode.ToString() + ".", Log.LevelsOfLogs.INFO, "ScoreManager");
+        // Get best score of current mode
         switch (gameMode)
         {
             case GameModes.Modes.Classic:
@@ -38,9 +44,8 @@ public class ScoreManager : MonoBehaviour
                 break;
         }
         Log.WriteLog("Best score: " + bestScore + ".", Log.LevelsOfLogs.INFO, "ScoreManager");
-        score = 0;
-        scoreAllLoop = 0;
 
+        // UI
         scoreUIHelper = scoreUI;
         scoreUIHelper.text = score.ToString();
 
@@ -48,16 +53,23 @@ public class ScoreManager : MonoBehaviour
         bestScoreLoseUHelperI = bestScoreLoseUI;
     }
 
+    /// <returns>Current score</returns>
     public static int GetCurrentScore() => score;
 
+    /// <summary>
+    /// Reset score to zero for new game loop
+    /// </summary>
     public static void SetScoreToZero()
     {
-        Log.WriteLog("Set score to zero.", Log.LevelsOfLogs.INFO, "ScoreManager");
         score = 0;
         scoreAllLoop = 0;
+        // UI
         scoreUIHelper.text = score.ToString();
     }
 
+    /// <summary>
+    /// Reset score to zero for continue game loop
+    /// </summary>
     public static void SetScoreToContinue()
     {
         score = 0;
@@ -67,12 +79,11 @@ public class ScoreManager : MonoBehaviour
     {
         score++;
         scoreAllLoop ++;
+        // UI
         scoreUIHelper.text = scoreAllLoop.ToString();
 
         if (bestScore <= scoreAllLoop)
-        {
             bestScore = scoreAllLoop;
-        }
     }
 
     public static void UpdateLoseUI()

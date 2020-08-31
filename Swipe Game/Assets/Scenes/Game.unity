@@ -212,6 +212,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad16f38a1ed8a0d48a4d92721639847e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &34311124
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 34311125}
+  - component: {fileID: 34311126}
+  m_Layer: 0
+  m_Name: UI Update Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &34311125
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 34311124}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.7762922, y: -0.40005553, z: -67.67132}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1375058810}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &34311126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 34311124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acf00bfc14295cf419447f2cfb6ccf0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerBar: {fileID: 343244636}
+  timerText: {fileID: 1970301856}
 --- !u!1 &42939299
 GameObject:
   m_ObjectHideFlags: 0
@@ -4819,6 +4864,7 @@ Transform:
   - {fileID: 56141841}
   - {fileID: 1585700587}
   - {fileID: 1109411948}
+  - {fileID: 34311125}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

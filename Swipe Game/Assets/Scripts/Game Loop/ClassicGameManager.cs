@@ -22,6 +22,12 @@ public class ClassicGameManager : GameLoopManager
         Log.WriteLog("Classic mode.", Log.LevelsOfLogs.INFO, "ClassicGameManager");
         Log.WriteLog("Game started.", Log.LevelsOfLogs.INFO, "ClassicGameManager");
 
+        GameLoopUIUpdate uiUpdate = FindObjectOfType<GameLoopUIUpdate>();
+        MenuManager menu = FindObjectOfType<MenuManager>();
+        SetTimerUIUpdateEvent(uiUpdate.UpdateTimerUI);
+        SetLoseUIUpdateEvent(uiUpdate.UpdateLoseUI);
+        SetLoseUIUpdateEvent(menu.UpdateMoneyUI);
+
         timeToMove = timeToGameLoop;
         loseState = false;
         _swipeManager.gameObject.SetActive(true);
@@ -30,20 +36,6 @@ public class ClassicGameManager : GameLoopManager
         CreatedAllCards();
         timer = timeToMove;
         NextTurn(true);
-    }
-
-    public override void CheckPlayerMove(bool stateCheck)
-    {
-        if (stateCheck)
-        {
-            ScoreManager.UpdateScore();
-            firstCard = false;
-            NextTurn();
-        }
-        else
-        {
-            Lose();
-        }
     }
 
     public override void RestartGame()
@@ -55,6 +47,7 @@ public class ClassicGameManager : GameLoopManager
         timeToMove = timeToGameLoop;
         timer = timeToMove;
         firstCard = true;
+        UpdateTimerUI(new TimerUpdateUIEventArgs(timer, timeToGameLoop));
         NextTurn(true);
     }
 
@@ -66,6 +59,7 @@ public class ClassicGameManager : GameLoopManager
         _swipeManager.gameObject.SetActive(true);
         timer = timeToMove;
         firstCard = true;
+        UpdateTimerUI(new TimerUpdateUIEventArgs(timer, timeToGameLoop));
         NextTurn(true);
     }
 
@@ -88,15 +82,15 @@ public class ClassicGameManager : GameLoopManager
     private void Update()
     {
         Timer();
-        if (timer <= 0) /// time is uot
+        if (timer <= 0) // time is uot
         {
-            if (_cardManager.NeedSkip()) /// player have to do nothing
+            if (_cardManager.NeedSkip()) // player have to do nothing
             {
                 ScoreManager.UpdateScore();
                 _cardManager.MoveCard();
                 NextTurn();
             }
-            else /// player have to do move
+            else // player have to do move
             {
                 if (!loseState)
                 {
@@ -147,12 +141,5 @@ public class ClassicGameManager : GameLoopManager
 
         cards[currentList][idOfCardInList].transform.position = pointForCard.position;
         cards[currentList][idOfCardInList].SetActive(true);
-    }
-
-    protected override void Timer()
-    {
-        // UI Update here
-        if (firstCard) return;
-        timer -= Time.deltaTime;
     }
 }

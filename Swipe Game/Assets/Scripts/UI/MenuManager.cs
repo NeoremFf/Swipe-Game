@@ -105,7 +105,7 @@ public class MenuManager : MonoBehaviour
 
     public void Restart()
     {
-        if (gameManager as ChallengeGameManager)
+        if (gameManager is ChallengeGameManager)
         {
             if (MoneyManager.GetTickets() > 0)
             {
