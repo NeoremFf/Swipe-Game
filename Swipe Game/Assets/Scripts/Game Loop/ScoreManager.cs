@@ -1,27 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
-    // UI here
-    [Header("UI in game")]
-    [SerializeField] private Text scoreUI = null;
-    private static Text scoreUIHelper = null;
-
-    [Header("UI in lose")]
-    [SerializeField] private Text scoreLoseUI = null;
-    [SerializeField] private Text bestScoreLoseUI = null;
-    private static Text scoreLoseUIHelper = null;
-    private static Text bestScoreLoseUHelperI = null;
-    // 
-
     private static int score = 0; // current score
     private static int bestScore = 0; // the best score of current mode
     private static int scoreAllLoop = 0; // all points scored in this game cycle (needed to continue after advertising or money after a loss)
 
     private static GameModes.Modes gameMode = GameModes.Modes.NoneGame;
+
+    private delegate void GameUIUpdate(ScoreUpdateUIEventArgs e);
+    private static event GameUIUpdate updateScoreUI = null;
+    private static event GameUIUpdate updateLoseUI = null;
 
     /// <summary>
     /// Prepare Money Manager
@@ -45,12 +38,11 @@ public class ScoreManager : MonoBehaviour
         }
         Log.WriteLog("Best score: " + bestScore + ".", Log.LevelsOfLogs.INFO, "ScoreManager");
 
-        // UI
-        scoreUIHelper = scoreUI;
-        scoreUIHelper.text = score.ToString();
+        var uiUpdater = FindObjectOfType<GameLoopUIUpdate>();
+        updateScoreUI += uiUpdater.UpdateGameScoreUI;
+        updateLoseUI += uiUpdater.UpdateLoseUI;
 
-        scoreLoseUIHelper = scoreLoseUI;
-        bestScoreLoseUHelperI = bestScoreLoseUI;
+        updateScoreUI?.Invoke(new ScoreUpdateUIEventArgs(0));
     }
 
     /// <returns>Current score</returns>
@@ -63,8 +55,7 @@ public class ScoreManager : MonoBehaviour
     {
         score = 0;
         scoreAllLoop = 0;
-        // UI
-        scoreUIHelper.text = score.ToString();
+        updateScoreUI?.Invoke(new ScoreUpdateUIEventArgs(score));
     }
 
     /// <summary>
@@ -79,14 +70,12 @@ public class ScoreManager : MonoBehaviour
     {
         score++;
         scoreAllLoop ++;
-        // UI
-        scoreUIHelper.text = scoreAllLoop.ToString();
-
+        updateScoreUI?.Invoke(new ScoreUpdateUIEventArgs(scoreAllLoop));
         if (bestScore <= scoreAllLoop)
             bestScore = scoreAllLoop;
     }
 
-    public static void UpdateLoseUI()
+    public static void UpdateLose()
     {
         Log.WriteLog("Update scores after death.", Log.LevelsOfLogs.INFO, "ScoreManager");
         switch (gameMode)
@@ -101,7 +90,6 @@ public class ScoreManager : MonoBehaviour
         }
 
         MoneyManager.AddMoneyInGamesEnd(score);
-        scoreLoseUIHelper.text = scoreAllLoop.ToString();
-        bestScoreLoseUHelperI.text = bestScore.ToString();
+        updateLoseUI?.Invoke(new ScoreUpdateUIEventArgs(scoreAllLoop, bestScore));
     }
 }

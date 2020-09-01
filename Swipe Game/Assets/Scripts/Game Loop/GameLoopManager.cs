@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 namespace Assets.Scripts.Game_Loop
 {
@@ -40,7 +41,7 @@ namespace Assets.Scripts.Game_Loop
         protected bool loseState = false;
 
         // Events for UI update
-        protected delegate void UIUpdateLoseHandler();
+        protected delegate void UIUpdateLoseHandler(ScoreUpdateUIEventArgs e);
         protected delegate void UIUpdateTimerHandler(object sender, TimerUpdateUIEventArgs e);
         protected event UIUpdateLoseHandler updateUIAfterLoseEvent = null;
         protected event UIUpdateTimerHandler updateTimerUIEvent = null;
@@ -154,8 +155,10 @@ namespace Assets.Scripts.Game_Loop
             _swipeManager.gameObject.SetActive(false);
             StopAllCoroutines();
             DeactiveAllCards();
+
             // UI
-            updateUIAfterLoseEvent?.Invoke();
+            ScoreManager.UpdateLose();
+            //updateUIAfterLoseEvent?.Invoke(new ScoreUpdateUIEventArgs());
 
             playScene.SetActive(false);
             loseScene.SetActive(true);

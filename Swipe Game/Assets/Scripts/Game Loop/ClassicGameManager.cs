@@ -25,8 +25,7 @@ public class ClassicGameManager : GameLoopManager
         GameLoopUIUpdate uiUpdate = FindObjectOfType<GameLoopUIUpdate>();
         MenuManager menu = FindObjectOfType<MenuManager>();
         SetTimerUIUpdateEvent(uiUpdate.UpdateTimerUI);
-        SetLoseUIUpdateEvent(uiUpdate.UpdateLoseUI);
-        SetLoseUIUpdateEvent(menu.UpdateMoneyUI);
+        //SetLoseUIUpdateEvent(menu.UpdateMoneyUI);
 
         timeToMove = timeToGameLoop;
         loseState = false;
