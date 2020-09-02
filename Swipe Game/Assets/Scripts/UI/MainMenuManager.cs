@@ -50,15 +50,6 @@ public class MainMenuManager : MonoBehaviour
 
     private void Start()
     {
-        /******************************/
-        //PlayerPrefs.DeleteAll();
-        MoneyManager.AddMoney(5000);
-        MoneyManager.AddGems(500);
-        /********************************/
-
-        MoneyManager _resources = FindObjectOfType<MoneyManager>();
-        _resources?.SetEventsForUpdateUI(UpdateMoneyUI, UpdateGemsUI, UpdateTicketsUI);
-
         //Set ui text
         GetLocalizedText();
 

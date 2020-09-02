@@ -13,7 +13,12 @@ public class GameLoopUIUpdate : MonoBehaviour
     [Header("UI in lose")]
     [SerializeField] private Text scoreLoseUI = null;
     [SerializeField] private Text bestScoreLoseUI = null;
+
+    [Header("Resources Value UI")]
     [SerializeField] private Text moneyValue = null;
+    [SerializeField] private Text gemsValue = null;
+    [SerializeField] private Text ticketsValue = null;
+    [SerializeField] private Text resourcesValueGetsFromGameLoop = null;
 
     /// <summary>
     /// Update Timer UI in game loop
@@ -49,8 +54,28 @@ public class GameLoopUIUpdate : MonoBehaviour
     /// Update money value
     /// </summary>
     /// <param name="e">info</param>
-    public void UpdateMoneyUI(ScoreUpdateUIEventArgs e)
+    public void UpdateMoneyUI(ResourcesUpdateUIEventArgs e) //
     {
-        moneyValue.text = e.Score.ToString();
+        moneyValue.text = e.Value.ToString();
+        if (resourcesValueGetsFromGameLoop) resourcesValueGetsFromGameLoop.text = e.Value_2.ToString();
+    }
+
+    /// <summary>
+    /// Update gems value
+    /// </summary>
+    /// <param name="e">info</param>
+    public void UpdateGemsUI(ResourcesUpdateUIEventArgs e) //
+    {
+        gemsValue.text = e.Value.ToString();
+        if (resourcesValueGetsFromGameLoop) resourcesValueGetsFromGameLoop.text = e.Value_2.ToString();
+    }
+
+    /// <summary>
+    /// Update tickets value
+    /// </summary>
+    /// <param name="e">info</param>
+    public void UpdateTicketsUI(ResourcesUpdateUIEventArgs e) //
+    {
+        if (ticketsValue) ticketsValue.text = e.Value.ToString();
     }
 }

@@ -35,4 +35,10 @@ public class GameModeManager : MonoBehaviour
                 break;
         }
     }
+
+    private void Start()
+    {
+        var updateUI = FindObjectOfType<GameLoopUIUpdate>();
+        MoneyManager.SetEvents(updateUI.UpdateMoneyUI, updateUI.UpdateGemsUI, updateUI.UpdateTicketsUI);
+    }
 }

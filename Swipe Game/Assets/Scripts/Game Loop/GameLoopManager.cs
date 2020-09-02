@@ -41,9 +41,7 @@ namespace Assets.Scripts.Game_Loop
         protected bool loseState = false;
 
         // Events for UI update
-        protected delegate void UIUpdateLoseHandler(ScoreUpdateUIEventArgs e);
         protected delegate void UIUpdateTimerHandler(object sender, TimerUpdateUIEventArgs e);
-        protected event UIUpdateLoseHandler updateUIAfterLoseEvent = null;
         protected event UIUpdateTimerHandler updateTimerUIEvent = null;
         #endregion
 
@@ -80,15 +78,6 @@ namespace Assets.Scripts.Game_Loop
         protected void SetTimerUIUpdateEvent(UIUpdateTimerHandler handler)
         {
             updateTimerUIEvent += handler;
-        }
-
-        /// <summary>
-        /// Set event that will update UI after game
-        /// </summary>
-        /// <param name="handler">event</param>
-        protected void SetLoseUIUpdateEvent(UIUpdateLoseHandler handler)
-        {
-            updateUIAfterLoseEvent += handler;
         }
 
         /// <summary>

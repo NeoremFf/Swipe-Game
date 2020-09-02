@@ -15,7 +15,6 @@ public class ChallengeGameManager : GameLoopManager
 
         GameLoopUIUpdate uiUpdate = FindObjectOfType<GameLoopUIUpdate>();
         SetTimerUIUpdateEvent(uiUpdate.UpdateTimerUI);
-        SetLoseUIUpdateEvent(uiUpdate.UpdateLoseUI);
 
         loseState = false;
         _swipeManager.gameObject.SetActive(true);

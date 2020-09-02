@@ -59,9 +59,6 @@ public class MenuManager : MonoBehaviour
         if (!_ads) Log.WriteLog("Can not get AdsManager.", Log.LevelsOfLogs.ERROR, "MenuManager");
         buttonExtraLive.SetActive(true);
 
-        MoneyManager _resources = FindObjectOfType<MoneyManager>();
-        _resources?.SetEventsForUpdateUI(UpdateMoneyUI, UpdateGemsUI, UpdateTicketsUI);
-
         UpdateMoneyUI();
         UpdateGemsUI();
         UpdateTicketsUI();

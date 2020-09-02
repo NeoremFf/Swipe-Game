@@ -89,7 +89,7 @@ public class ScoreManager : MonoBehaviour
                 break;
         }
 
-        MoneyManager.AddMoneyInGamesEnd(score);
+        MoneyManager.AddResourcesAfterGame(score);
         updateLoseUI?.Invoke(new ScoreUpdateUIEventArgs(scoreAllLoop, bestScore));
     }
 }

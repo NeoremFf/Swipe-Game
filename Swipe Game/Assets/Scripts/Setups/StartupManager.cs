@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Resources.Game_Resources_DB;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,5 +45,12 @@ public class StartupManager : MonoBehaviour
         {
             PlayerPrefs.SetInt(PlayerPrefsKeys.SettingsSoundActive, 1);
         }
+
+
+
+
+        /************************************************************/
+        GetGameDataFromDBOnStart.GetResourcesFromDB();
+        /*************************************************************/
     }
 }
