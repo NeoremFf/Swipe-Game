@@ -1,4 +1,8 @@
-﻿public class GameResources
+﻿/// <summary>
+/// Database class (code-first)
+/// Implemented players resources for game
+/// </summary>
+public class GameResources
 {
     public int Id { get; set; } // the current player ID
     public int Money { get; set; }

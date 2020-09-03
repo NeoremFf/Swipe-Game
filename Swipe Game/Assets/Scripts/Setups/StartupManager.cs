@@ -5,14 +5,23 @@ using UnityEngine;
 
 public class StartupManager : MonoBehaviour
 {
+    /// <summary>
+    /// Game startup
+    /// </summary>
     public static void Startup()
     {
+        /******************************************************/
+        /*                   GET PLAYERS DATA                 */
+        /******************************************************/
         Log.WriteLog("Check PlayerPref keys.", Log.LevelsOfLogs.INFO, "StartupManager");
         CheckPlayerPrefKyes();
     }
 
     private static void CheckPlayerPrefKyes()
     {
+        /******************************************************/
+        /*          TEMP FOR GET RESOURCES INFO FOR GAME      */ 
+        /******************************************************/
         if (!PlayerPrefs.HasKey(PlayerPrefsKeys.FirstEntering))
         {
             PlayerPrefs.SetInt(PlayerPrefsKeys.FirstEntering, 1);
@@ -48,9 +57,10 @@ public class StartupManager : MonoBehaviour
 
 
 
-
-        /************************************************************/
+        /******************************************************/
+        /*          WORK WITH DATABASE AND RESOURCES          */
+        /******************************************************/
         GetGameDataFromDBOnStart.GetResourcesFromDB();
-        /*************************************************************/
+        /******************************************************/
     }
 }
