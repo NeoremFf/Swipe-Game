@@ -17,16 +17,23 @@ public class Log : MonoBehaviour
         FATAL // game was drop
     }
 
-    static private string pathForLog = Application.dataPath + @"/Logs/";
+    static private string pathForLog = string.Empty;
+
     static private string fileName;
     static private string path;
 
     static public void Setup()
     {
+#if UNITY_EDITOR
+        pathForLog = Application.dataPath + @"/Logs/";
+
         fileName = DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss");
         if (!Directory.Exists(pathForLog))
             Directory.CreateDirectory(pathForLog);
         path = pathForLog + fileName + ".txt";
+#elif UNITY_ANDROID
+        
+#endif
     }
 
     /// <summary>
@@ -37,6 +44,7 @@ public class Log : MonoBehaviour
     /// <param name="place">current class</param>
     static public void WriteLog(string message, LevelsOfLogs tag, string place)
     {
+#if UNITY_EDITOR
         if (!File.Exists(path))
             CreateFile(path);
         using (StreamWriter sw = File.AppendText(path))
@@ -46,6 +54,7 @@ public class Log : MonoBehaviour
             string log = string.Format("{0,-8} [{1,-9} ", string.Format("[{0}.{1}.{2}]", hours, min, sec), tag + "]") + String.Format("{0,-35}", message) + String.Format(" [{0}]", place);
             sw.WriteLine(log);
         }
+#endif
     }
 
     /// <summary>
