@@ -116,20 +116,20 @@ public class AdsManager : MonoBehaviour
                 switch (adsShowFor)
                 {
                     case AllState.AdsShowFor.FreeMoney:
-                        MainMenuManager _mainMenu = FindObjectOfType<MainMenuManager>();
-                        if (_mainMenu)
-                        {
-                            //_mainMenu.CoinsAddInfoPanel(countAddFreeMoney);
-                        }
-                        else
-                        {
-                            MenuManager _menu = FindObjectOfType<MenuManager>();
-                            if (_menu)
-                            {
-                                _menu.InfoPanel(countAddFreeMoney + " COINS ADD");
-                                _menu.UpdateMoneyUI();
-                            }
-                        }
+                        //MainMenuManager _mainMenu = FindObjectOfType<MainMenuManager>();
+                        //if (_mainMenu)
+                        //{
+                        //    //_mainMenu.CoinsAddInfoPanel(countAddFreeMoney);
+                        //}
+                        //else
+                        //{
+                        //    MenuManager _menu = FindObjectOfType<MenuManager>();
+                        //    if (_menu)
+                        //    {
+                        //        _menu.InfoPanel(countAddFreeMoney + " COINS ADD");
+                        //        _menu.UpdateMoneyUI();
+                        //    }
+                        //}
                         MoneyManager.AddMoney(countAddFreeMoney);
                         break;
                 }

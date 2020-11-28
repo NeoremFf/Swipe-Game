@@ -41,22 +41,22 @@ public class Purchaser : MonoBehaviour
 
     public void SetEvent_Menu(GameObject obj)
     {
-        MainMenuManager _mainMenu = obj.GetComponent<MainMenuManager>();
-        if (_mainMenu)
-        {
+        //MainMenuManager _mainMenu = obj.GetComponent<MainMenuManager>();
+        //if (_mainMenu)
+        //{
 
-        }
-        else
-        {
-            MenuManager _menu = obj.GetComponent<MenuManager>();
-            if (!_menu) return;
+        //}
+        //else
+        //{
+        //    MenuManager _menu = obj.GetComponent<MenuManager>();
+        //    if (!_menu) return;
 
-        }
+        //}
     }
 
     private void PurchaseManager_OnPurchaseConsumable(PurchaseEventArgs args)
     {
-        MainMenuManager _menu = FindObjectOfType<MainMenuManager>();
+        //MainMenuManager _menu = FindObjectOfType<MainMenuManager>();
         int add = 0;
         BuyItem buyFunc = null;
         Info infoPanel = null;

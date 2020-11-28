@@ -94,7 +94,7 @@ public class BuyItemManager : MonoBehaviour
             button.image.color = Color.green;
             currentBackgroundButton = button;
             SetBackground(id);
-            MainMenuManager _menu = FindObjectOfType<MainMenuManager>();
+            //MainMenuManager _menu = FindObjectOfType<MainMenuManager>();
             //_menu.SeccessSetAsBackgroundInfoPanel(_itemsConfig[id].name);
         }
         else
@@ -118,18 +118,18 @@ public class BuyItemManager : MonoBehaviour
             SetBackground(id);
             _itemsConfig[id].hasItem = true;
             //File.WriteAllText(pathForJson, JsonArrayParser.ToJson(_itemsConfig));
-            MainMenuManager _menu = FindObjectOfType<MainMenuManager>();
+            //MainMenuManager _menu = FindObjectOfType<MainMenuManager>();
             //_menu.SuccessPurchasingInfoPanel();
             //_menu.UpdateGemsValue();
         }
         else
         {
-            MainMenuManager _menu = FindObjectOfType<MainMenuManager>();
-            if (!_menu)
-            {
-                Log.WriteLog("Can not set MainMenuManager.", Log.LevelsOfLogs.ERROR, "BuyItemManager");
-                return;
-            }
+            //MainMenuManager _menu = FindObjectOfType<MainMenuManager>();
+            //if (!_menu)
+            //{
+            //    Log.WriteLog("Can not set MainMenuManager.", Log.LevelsOfLogs.ERROR, "BuyItemManager");
+            //    return;
+            //}
             //_menu.NeedMoreGemsInfoPanel();
         }
     }

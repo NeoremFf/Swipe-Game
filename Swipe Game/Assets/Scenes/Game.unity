@@ -1144,7 +1144,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1585700588}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: GameMenuManager, Assembly-CSharp
         m_MethodName: BackToMainMenu
         m_Mode: 1
         m_Arguments:
@@ -4514,12 +4514,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1188896001}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1188896003 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3896998426096386989, guid: a89f1175e27a38d499bbcf696be3a609,
-    type: 3}
-  m_PrefabInstance: {fileID: 1188896001}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1216350984
 GameObject:
   m_ObjectHideFlags: 0
@@ -4967,7 +4961,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1411780048
 Transform:
   m_ObjectHideFlags: 0
@@ -5013,7 +5007,6 @@ MonoBehaviour:
   pointForCard: {fileID: 2086068887}
   timeToGameLoop: 2
   _swipeManager: {fileID: 33734937}
-  menuManager: {fileID: 1585700588}
   timeRemoveValue: 0.1
   timeRemoveCountMoves: 12
   timeMinRemove: 0.8
@@ -5712,8 +5705,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1585700588}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: Restart
+        m_TargetAssemblyTypeName: GameMenuManager, Assembly-CSharp
+        m_MethodName: RestartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5802,24 +5795,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1585700586}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1b3888e184ba7a4ab7f261b9b525168, type: 3}
+  m_Script: {fileID: 11500000, guid: d7db15ed61d21df4cbbe25fc7b91bc74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playScene: {fileID: 2050094206}
-  loseScene: {fileID: 64053117}
-  purchaseMoneyPanel: {fileID: 153154357}
-  buyTicketsPanel: {fileID: 236607772}
-  tutorialPanel: {fileID: 1491157188}
-  buttonExtraLive: {fileID: 1638366181}
-  closeAllPanel: {fileID: 492467158}
-  moneyCountText: {fileID: 1657813115}
-  moneyCountAddAfterGameText: {fileID: 1347494580}
-  gemsCountText: {fileID: 1347494580}
-  ticketsCountText: {fileID: 1347494580}
-  infoPanel: {fileID: 1188896003}
-  answerPanel: {fileID: 120048067}
-  _sound: {fileID: 0}
-  _resourcesManager: {fileID: 56141842}
+  gameUI: {fileID: 2050094206}
+  losePanel: {fileID: 64053117}
 --- !u!1 &1612993317
 GameObject:
   m_ObjectHideFlags: 0
@@ -7491,7 +7471,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2126911160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7521,7 +7501,6 @@ MonoBehaviour:
   pointForCard: {fileID: 2086068887}
   timeToGameLoop: 20
   _swipeManager: {fileID: 33734937}
-  menuManager: {fileID: 1585700588}
 --- !u!4 &2126911161
 Transform:
   m_ObjectHideFlags: 0

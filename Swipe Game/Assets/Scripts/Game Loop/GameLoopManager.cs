@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 namespace Assets.Scripts.Game_Loop
 {
@@ -28,7 +27,7 @@ namespace Assets.Scripts.Game_Loop
 
         [Header("Managers")]
         [SerializeField] protected SwipeManager _swipeManager = null;
-        [SerializeField] private MenuManager menuManager = null;
+        //[SerializeField] private MenuManager menuManager = null;
         protected CardManager _cardManager = null;
 
         // POOL
@@ -43,12 +42,19 @@ namespace Assets.Scripts.Game_Loop
         // Events for UI update
         protected delegate void UIUpdateTimerHandler(object sender, TimerUpdateUIEventArgs e);
         protected event UIUpdateTimerHandler updateTimerUIEvent = null;
+
+        // UI
+        public delegate void setUIHandler();
+        public event setUIHandler SetUIEvent;
         #endregion
 
         /// <summary>
         /// Restart game
         /// </summary>
-        public abstract void RestartGame();
+        public virtual void RestartGame()
+        {
+            SetUIEvent?.Invoke();
+        }
 
         /// <summary>
         /// Continue game after lose

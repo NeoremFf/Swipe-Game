@@ -10,10 +10,7 @@ public class GameModeManager : MonoBehaviour
 
     private static GameModes.Modes mode = GameModes.Modes.NoneGame;
 
-    public static void SetMode(GameModes.Modes newMode)
-    {
-        mode = newMode;
-    }
+    public static void SetMode(GameModes.Modes newMode) => mode = newMode;
 
     public GameModes.Modes GetGameMode() => mode;
 

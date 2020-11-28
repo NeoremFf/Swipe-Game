@@ -28,6 +28,7 @@ public class ChallengeGameManager : GameLoopManager
     public override void RestartGame()
     {
         Log.WriteLog("Restart Game.", Log.LevelsOfLogs.INFO, "ChallengeGameManager");
+        base.RestartGame();
         ScoreManager.SetScoreToZero();
         loseState = false;
         _swipeManager.gameObject.SetActive(true);

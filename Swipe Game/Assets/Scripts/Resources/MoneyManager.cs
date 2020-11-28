@@ -44,8 +44,8 @@ public class MoneyManager : MonoBehaviour
         GameModeManager _mode = FindObjectOfType<GameModeManager>();
         if (_mode) gameMode = _mode.GetGameMode();
 
-        var updateUI = FindObjectOfType<GameLoopUIUpdate>();
-        SetEvents(updateUI.UpdateMoneyUI, updateUI.UpdateGemsUI, updateUI.UpdateTicketsUI);
+        //var updateUI = FindObjectOfType<GameLoopUIUpdate>();
+        //SetEvents(updateUI.UpdateMoneyUI, updateUI.UpdateGemsUI, updateUI.UpdateTicketsUI);
     }
 
     /// <summary>

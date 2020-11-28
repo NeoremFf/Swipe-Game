@@ -23,7 +23,7 @@ public class ClassicGameManager : GameLoopManager
         Log.WriteLog("Game started.", Log.LevelsOfLogs.INFO, "ClassicGameManager");
 
         GameLoopUIUpdate uiUpdate = FindObjectOfType<GameLoopUIUpdate>();
-        MenuManager menu = FindObjectOfType<MenuManager>();
+        //MenuManager menu = FindObjectOfType<MenuManager>();
         SetTimerUIUpdateEvent(uiUpdate.UpdateTimerUI);
         //SetLoseUIUpdateEvent(menu.UpdateMoneyUI);
 
@@ -40,6 +40,7 @@ public class ClassicGameManager : GameLoopManager
     public override void RestartGame()
     {
         Log.WriteLog("Restart Game.", Log.LevelsOfLogs.INFO, "ClassicGameManager");
+        base.RestartGame();
         ScoreManager.SetScoreToZero();
         loseState = false;
         _swipeManager.gameObject.SetActive(true);
@@ -81,7 +82,7 @@ public class ClassicGameManager : GameLoopManager
     private void Update()
     {
         Timer();
-        if (timer <= 0) // time is uot
+        if (timer <= 0) // time is out
         {
             if (_cardManager.NeedSkip()) // player have to do nothing
             {
